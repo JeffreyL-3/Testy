@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="question active" id="question">
+            <h2>Question {{ question_number }}</h2>
+            <p>This is the question text for question {{ question_number }}.</p>
+            <form method="POST">
+                <button type="submit" name="action" value="prev" {% if question_number == 1 %}disabled{% endif %}>Previous</button>
+                <button type="submit" name="action" value="next">Next</button>
+                <button type="submit" name="action" value="done">Done!</button>
+            </form>
+        </div>
+    </div>
+    <div class="popup-overlay" id="popup-overlay">
+        <div class="popup" id="popup">
+            <div class="popup-header">
+                <h2>Questions</h2>
+                <span class="popup-close" id="popup-close">&times;</span>
+            </div>
+            <div class="question-selector">
+                {% for i in range(1, session['total_questions'] + 1) %}
+                    <a href="{{ url_for('question', question_number=i) }}">
+                        <button class="{% if i == question_number %}current{% endif %}">{{ i }}</button>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="bottom-nav">
+        <button id="question-button" onclick="togglePopup()">Question {{ question_number }} of {{ session['total_questions'] }}</button>
+    </div>
+    <script>
+        function togglePopup() {
+            var popupOverlay = document.getElementById('popup-overlay');
+            var popup = document.getElementById('popup');
+            var questionButton = document.getElementById('question-button');
+
+            if (popupOverlay.style.display === 'flex') {
+                popupOverlay.style.display = 'none';
+            } else {
+                var buttonRect = questionButton.getBoundingClientRect();
+                popup.style.bottom = (window.innerHeight - buttonRect.top + window.scrollY + 50) + 'px'; // Adjust position based on button height and popup height
+                popupOverlay.style.display = 'flex';
+            }
+        }
+
+        document.getElementById('popup-close').onclick = function() {
+            togglePopup();
+        };
+
+        window.onclick = function(event) {
+            var popupOverlay = document.getElementById('popup-overlay');
+            if (event.target === popupOverlay) {
+                popupOverlay.style.display = 'none';
+            }
+        };
+    </script>
+</body>
+</html>
