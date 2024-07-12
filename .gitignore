@@ -1,6 +1,6 @@
 # Other
 .vscode/
-.testy-env/
+testy-env/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
