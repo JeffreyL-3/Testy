@@ -18,6 +18,15 @@ body {
 .active {
     display: block;
 }
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.button-group {
+    display: flex;
+    gap: 10px;
+}
 button {
     padding: 10px 20px;
     background: #007bff;
@@ -29,6 +38,10 @@ button {
 }
 button:hover {
     background: #0056b3;
+}
+button:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
 }
 input[type="number"] {
     padding: 10px;
